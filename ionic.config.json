@@ -1,0 +1,7 @@
+{
+  "name": "bootcamp-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
