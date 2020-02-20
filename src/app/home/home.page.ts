@@ -8,6 +8,7 @@ import { PRODUCTS } from '../mock-products';
 })
 export class HomePage {
   products = PRODUCTS;
+  gridView = true;
 
   constructor() { }
 
@@ -24,5 +25,9 @@ export class HomePage {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  enableGridView(value: boolean) {
+    this.gridView = value;
   }
 }

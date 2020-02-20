@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button>
-        <ion-icon name="cart-outline"></ion-icon>
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>Products</ion-title>
@@ -13,8 +13,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-buttons>
+    <ion-button (click)="enableGridView(false)">
+      <ion-icon slot="icon-only" name="list"></ion-icon>
+    </ion-button>
+    <ion-button (click)="enableGridView(true)">
+      <ion-icon slot="icon-only" name="grid"></ion-icon>
+    </ion-button>
+  </ion-buttons>
   <ion-list>
-    <ion-grid>
+    <ion-grid *ngIf="!gridView">
       <ion-row *ngFor="let product of products">
         <ion-col size-xs="6" size-md="4" size-lg="3" sixe-xl="1">
           <img src="{{product.image}}" alt="{{product.name}}">
@@ -27,10 +35,20 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-grid *ngIf="gridView">
+      <ion-row align-items-center>
+        <ion-col *ngFor="let product of products">
+          <h2>{{product.name}}</h2>
+          <img src="{{product.image}}" alt="{{product.name}}">
+          <p>{{product.price}} €</p>
+          <ion-button color="primary">add to car</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    <ion-infinite-scroll-content loadingSpinner="circular" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
