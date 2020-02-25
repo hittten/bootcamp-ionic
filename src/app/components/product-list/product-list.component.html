@@ -1,0 +1,31 @@
+<ion-buttons>
+  <ion-button (click)="enableGridView(false)">
+    <ion-icon slot="icon-only" name="list"></ion-icon>
+  </ion-button>
+  <ion-button (click)="enableGridView(true)">
+    <ion-icon slot="icon-only" name="grid"></ion-icon>
+  </ion-button>
+</ion-buttons>
+<ion-grid *ngIf="!gridView">
+  <ion-row *ngFor="let product of products">
+    <ion-col size-xs="6" size-md="4" size-lg="3" sixe-xl="1">
+      <img src="{{product.image}}" alt="{{product.name}}">
+    </ion-col>
+    <ion-col>
+      <h2>{{product.name}}</h2>
+      <p>{{product.description}}</p>
+      <p>{{product.price}} €</p>
+      <ion-button color="primary" (click)="buttonClick.emit(product);">{{buttonText}}</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<ion-grid *ngIf="gridView">
+  <ion-row align-items-center>
+    <ion-col *ngFor="let product of products">
+      <h2>{{product.name}}</h2>
+      <img src="{{product.image}}" alt="{{product.name}}">
+      <p>{{product.price}} €</p>
+      <ion-button color="primary" (click)="buttonClick.emit(product);">{{buttonText}}</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

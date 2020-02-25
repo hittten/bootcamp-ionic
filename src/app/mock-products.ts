@@ -182,3 +182,5 @@ export const PRODUCTS: Product[] = [
     createdAt: new Date('2020/01/01'),
   },
 ];
+
+export const CAR_ITEMS: Product[] = [];

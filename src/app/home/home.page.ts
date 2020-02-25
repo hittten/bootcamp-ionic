@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PRODUCTS } from '../mock-products';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-home',
@@ -7,27 +7,10 @@ import { PRODUCTS } from '../mock-products';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  products = PRODUCTS;
-  gridView = true;
+  products = this.productService.list();
+  constructor(private productService: ProductService) { }
 
-  constructor() { }
-
-  loadData(event) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-
-      this.products = [...this.products, ...PRODUCTS];
-
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      if (this.products.length >= 50) {
-        event.target.disabled = true;
-      }
-    }, 500);
-  }
-
-  enableGridView(value: boolean) {
-    this.gridView = value;
+  addToCar(product){
+    this.productService.addToCar(product);
   }
 }
