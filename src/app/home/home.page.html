@@ -18,4 +18,9 @@
     (buttonClick)="addToCar($event)"
     buttonText="Add to car">
   </app-product-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/product-add">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

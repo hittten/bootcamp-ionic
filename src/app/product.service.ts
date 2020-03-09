@@ -9,6 +9,16 @@ export class ProductService {
 
   constructor() { }
 
+  create(product: Product) {
+    product.id = PRODUCTS.length + 1;
+    product.createdAt = new Date();
+    product.image = `https://picsum.photos/id/${product.id}/300/300`;
+
+    PRODUCTS.push(product);
+
+    return product;
+  }
+
   list(): Product[] {
     return PRODUCTS;
   }
