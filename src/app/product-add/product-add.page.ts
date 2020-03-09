@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
-import { ProductService } from '../product.service';
-import { ToastController } from '@ionic/angular';
+import {Component, OnInit, SecurityContext} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {ProductService} from '../product.service';
+import {ToastController} from '@ionic/angular';
+import {CameraResultType, CameraSource, Plugins} from '@capacitor/core';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-add',
@@ -16,22 +18,41 @@ export class ProductAddPage implements OnInit {
     description: ['', Validators.required],
   });
 
+  photo: SafeResourceUrl;
+
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
-    public toastController: ToastController
-  ) { }
+    public toastController: ToastController,
+    private sanitizer: DomSanitizer,
+  ) {
+  }
 
   ngOnInit() {
   }
 
+  async takePicture() {
+    const image = await Plugins.Camera.getPhoto({
+      quality: 100,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera
+    });
+
+    this.photo = this.sanitizer.bypassSecurityTrustResourceUrl(image && (image.dataUrl));
+  }
+
   async onSubmit() {
-    const newProduct = this.productService.create(this.productForm.value);
-    this.productForm.reset({ name: '', price: '', description: '' });
+    const newProduct = this.productService.create({
+      ...this.productForm.value,
+      image: this.sanitizer.sanitize(SecurityContext.URL, this.photo)
+    });
+    this.productForm.reset({name: '', price: '', description: ''});
+    this.photo = null;
 
     console.log('new product', newProduct);
     const toast = await this.toastController.create({
-      message: 'Your settings have been saved.',
+      message: 'You product have been saved.',
       duration: 2000
     });
     toast.present();

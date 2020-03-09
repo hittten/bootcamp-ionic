@@ -19,11 +19,17 @@
         <ion-input type="number" formControlName="price"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>description</ion-label>
+        <ion-label position="floating">description</ion-label>
         <ion-textarea type="text" formControlName="description"></ion-textarea>
       </ion-item>
     </ion-list>
 
+    <img [src]="photo" alt="camera photo" *ngIf="photo">
     <ion-button type="submit" [disabled]="!productForm.valid" class="ion-no-margin">Save</ion-button>
   </form>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="takePicture()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
