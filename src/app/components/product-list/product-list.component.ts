@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from 'src/app/product';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -7,7 +8,7 @@ import { Product } from 'src/app/product';
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  @Input() products: Product[];
+  @Input() products$: Observable<Product[]>;
   @Input() buttonText: string;
   @Output() buttonClick = new EventEmitter<Product>();
   gridView = false;

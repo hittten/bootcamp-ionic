@@ -1,16 +1,18 @@
-import {Component, OnInit, SecurityContext} from '@angular/core';
+import {Component, OnDestroy, OnInit, SecurityContext} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ProductService} from '../product.service';
 import {ToastController} from '@ionic/angular';
 import {CameraResultType, CameraSource, Plugins} from '@capacitor/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.page.html',
   styleUrls: ['./product-add.page.scss'],
 })
-export class ProductAddPage implements OnInit {
+export class ProductAddPage implements OnInit, OnDestroy {
+  private subs: Subscription;
 
   productForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(4)]],
@@ -43,18 +45,24 @@ export class ProductAddPage implements OnInit {
   }
 
   async onSubmit() {
-    const newProduct = this.productService.create({
+    this.subs = this.productService.create({
       ...this.productForm.value,
       image: this.sanitizer.sanitize(SecurityContext.URL, this.photo)
-    });
-    this.productForm.reset({name: '', price: '', description: ''});
-    this.photo = null;
+    })
+      .subscribe(async newProduct => {
+        this.productForm.reset({name: '', price: '', description: ''});
+        this.photo = null;
 
-    console.log('new product', newProduct);
-    const toast = await this.toastController.create({
-      message: 'You product have been saved.',
-      duration: 2000
-    });
-    toast.present();
+        console.log('new product', newProduct);
+        const toast = await this.toastController.create({
+          message: 'You product have been saved.',
+          duration: 2000
+        });
+        toast.present();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

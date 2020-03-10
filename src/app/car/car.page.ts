@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../product.service';
+import {Component, OnInit} from '@angular/core';
+import {ProductService} from '../product.service';
 
 @Component({
   selector: 'app-car',
@@ -7,13 +7,19 @@ import { ProductService } from '../product.service';
   styleUrls: ['./car.page.scss'],
 })
 export class CarPage implements OnInit {
-  products = this.productService.listCarItems();
-  constructor(private productService: ProductService) { }
+  products$ = this.productService.listCarItems();
+
+  constructor(private productService: ProductService) {
+  }
 
   ngOnInit() {
   }
 
   removeFromCar(product) {
-    this.productService.removeFromCar(product);
+    this.productService.removeFromCar(product)
+      .subscribe(() => {
+        console.log('product was removed from car');
+        this.products$ = this.productService.listCarItems();
+      });
   }
 }

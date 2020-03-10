@@ -9,7 +9,7 @@
 
 <ion-content>
   <app-product-list
-    [products]="products"
+    [products$]="products$"
     (buttonClick)="removeFromCar($event)"
     buttonText="Remove from car">
   </app-product-list>

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ProductService } from '../product.service';
+import {Component} from '@angular/core';
+import {ProductService} from '../product.service';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +7,13 @@ import { ProductService } from '../product.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  products = this.productService.list();
-  constructor(private productService: ProductService) { }
+  products$ = this.productService.list();
 
-  addToCar(product){
-    this.productService.addToCar(product);
+  constructor(private productService: ProductService) {
+  }
+
+  addToCar(product) {
+    this.productService.addToCar(product)
+      .subscribe(() => console.log('product was added to car'));
   }
 }
