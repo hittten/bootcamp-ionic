@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://gil-bootcamp-angular.web.app/api',
+  user: 'gilberto',
 };
